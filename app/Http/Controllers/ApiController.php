@@ -7,6 +7,81 @@ use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
+    // updateQty Controller
+    public function confirmSale(Request $request)
+    {
+        $name = $request->input("name");
+        $price = $request->input("price");
+        $currency = $request->input("currency");
+        $order_qt = $request->input("order_qt");
+
+        $data = DB::select('call spMobileSale(?,?,?,?)', [$name, $price, $currency, $order_qt]);
+
+        return response()->json([
+            'message' => 'Get hold products successful',
+            'data' => $data
+        ]);
+    }
+ // updateQty Controller
+    public function updateQty(Request $request)
+    {
+        $hold_id = $request->input("hold_id");
+        $status = $request->input("status");
+
+        $data = DB::select('call spMobileUpdateQty(?,?)', [$hold_id, $status]);
+
+        return response()->json([
+            'message' => 'Get hold products successful',
+            'data' => $data
+        ]);
+    }
+
+    // GetHoldProducts Controller
+    public function getHoldProducts(Request $request)
+    {
+        $data = DB::select('call spMobileGetHoldProduct()');
+
+        return response()->json([
+            'message' => 'Get hold products successful',
+            'data' => $data
+        ]);
+    }
+
+    // HoldInsert Controller
+    public function holdInsert(Request $request)
+    {
+        $name = $request->input("name");
+        $price = $request->input("price");
+        $currency = $request->input("currency");
+
+        $data = DB::select('call spMobileHoldInsert(?,?,?)', [$name, $price, $currency]);
+
+        return response()->json([
+            'message' => 'Hold insert successful',
+            'data' => $data
+        ]);
+    }
+    public function getCategory(Request $request)
+    {
+        $data = DB::select('call spMobileGetCategory()');
+
+        return response()->json([
+            'message' => 'Get Category successful',
+            'data' => $data
+        ]);
+    }
+    // Product
+    public function getAllProducts(Request $request)
+    {
+        $category_id = $request->input("category_id");
+        $data = DB::select('call spMobileGetProduct(?)', [$category_id]);
+
+        return response()->json([
+            'message' => 'Get products successful',
+            'data' => $data
+        ]);
+    }
+
     public function getUserInfo(Request $request)
     {
         $user_id = $request->input('user_id');
